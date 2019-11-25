@@ -17,11 +17,16 @@
 #include "ActorEdge.hpp"
 #include "ActorNode.hpp"
 #include "Movie.hpp"
-
 // Maybe include some data structures here
 
 using namespace std;
-
+class CompareDit {
+  public:
+    bool operator()(pair<int, ActorNode*> pair1,
+                    pair<int, ActorNode*> pair2) const {
+        return pair1.first > pair2.first;
+    }
+}
 /**
  * TODO: add class header
  */
@@ -29,8 +34,9 @@ class ActorGraph {
   protected:
     // Maybe add class data structure(s) here
     unordered_map<string, ActorNode*> ActorList;
-    unordered_map<string, Movie*> MovieList;
-    vector<ActorEdge*> edges;
+    unordered_map<string, ActorEdge*> edges;
+    unordered_map<string, Movie*> movieList;
+    // vector<ActorEdge*> edges;
 
   public:
     /**
@@ -52,8 +58,8 @@ class ActorGraph {
      * return true if file was loaded sucessfully, false otherwise
      */
     bool loadFromFile(const char* in_filename, bool use_weighted_edges);
-    void insertToGraph(string actor, string movie, int date);
-    void BFSForSearch(ActorNode* begin, ActorNode* end)
+    void BFSForSearch(string root);
+    void findPath(string start, string end, bool weighted, ofstream& outFile);
 };
 
 #endif  // ACTORGRAPH_HPP

@@ -17,7 +17,6 @@
 #include "ActorEdge.hpp"
 #include "ActorNode.hpp"
 #include "Movie.hpp"
-
 using namespace std;
 
 /**
@@ -76,9 +75,20 @@ bool ActorGraph::loadFromFile(const char* in_filename,
         string movie_title(record[1]);
         int year = stoi(record[2]);
 
-        insertToGraph(actor, movie_title, year);
-
         // TODO: we have an actor/movie relationship, now what?
+        if (ActorList.find(actor) == ActorList.end()) {
+            ActorNode* newActor = new ActorNode(actor);
+            ActorList[actor] = newActor;
+        }
+        string movie = movie_title + "#@" + to_string(year);
+        if (movieList.find(movie) == movieList.end()) {
+            Movie* newMovie = new Movie(movie, year);
+            movieList[movie] = newMovie;
+            newMovie->actors.push_back(actor);
+        } else {
+            auto curMovie = movieList.find(movie);
+            curMovie->second->actors.push_back(actor);
+        }
     }
     if (!infile.eof()) {
         cerr << "Failed to read " << in_filename << "!\n";
@@ -88,36 +98,12 @@ bool ActorGraph::loadFromFile(const char* in_filename,
 
     return true;
 }
-void ActorGraph::insertToGraph(string actor, string movie, int date) {
-    string movieName = movie + "#@" + to_string(date);
-    if (MovieList.find(movieName) == MovieList.end()) {
-        if (ActorList.find(actor) == ActorList.end()) {
-            ActorNode* newActor = new ActorNode(actor);
-            Movie* newMovie = new Movie(movieName, date);
-            (newActor->movie).push_back(newMovie);
-            (newMovie->actors).push_back(actor);
-            MovieList.insert(pair<string, Movie*>(movieName, newMovie));
-            ActorList.insert(pair<string, ActorNode*>(actor, newActor));
-        } else {
-            ActorNode* currActor = ActorList[actor];
-            Movie* newMovie = new Movie(movieName, date);
-            (currActor->movie).push_back(newMovie);
-            (newMovie->actors).push_back(actor);
-            MovieList.insert(pair<string, Movie*>(movieName, newMovie));
-        }
-    } else {
-        Movie* currMovie = MovieList[movieName];
-        if (ActorList.find(actor) == ActorList.end()) {
-            ActorNode* newActor = new ActorNode(actor);
-            (newActor->movie).push_back(currMovie);
-            (currMovie->actors).push_back(actor);
-            ActorList.insert(pair<string, ActorNode*>(actor, newActor));
-        } else {
-            ActorNode* currActor = ActorList[actor];
-            (currActor->movie).push_back(currMovie);
-            (currMovie->actors).push_back(actor);
-        }
+void ActorGraph::findPath(string start, string end, bool weighted,
+                          ofstream& outFile) {
+    for (auto start = ActorList.begin(); start != ActorList.end(); start++) {
+        start->second->clean();
     }
+    priority_queue<pair<int, ActorNode*>, vector<pair<int, ActorNode*>>,
+                   CompareDit>
+        pq;
 }
-
-ActorGraph::~ActorGraph {}

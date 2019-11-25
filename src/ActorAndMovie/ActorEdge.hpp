@@ -6,15 +6,25 @@
 using namespace std;
 class ActorEdge {
   public:
-    ActorNode* start;
-    ActorNode* end;
-    Movie* bothMovie;
-    int weight;
-    ActorEdge() {
-        start = nullptr;
-        end = nullptr;
-        bothMovie = nullptr;
-        weight = 0;
+    string actor;
+    vector<Movie*> movies;
+    Movie* mostRecentMovie;
+    ActorEdge(string input_actor) : actor(input_actor) {
+        mostRecentMovie = nullptr;
+        movies = vector<Movie*>();
+    }
+    Movie* getMostRecentMovie() {
+        if (mostRecentMovie != nullptr) {
+            return mostRecentMovie;
+        }
+        int index = 0;
+        for (int i = 1; i < movies.size(); i++) {
+            if (movies[i]->year > movies[index]->year) {
+                index = i;
+            }
+        }
+        mostRecentMovie = movies[index];
+        return mostRecentMovie;
     }
 };
 #endif

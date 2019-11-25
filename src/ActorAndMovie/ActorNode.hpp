@@ -4,26 +4,28 @@
 #include <cmath>
 #include <string>
 #include <vector>
-#include "Movie.hpp"
 
 using namespace std;
 
 class ActorNode {
   public:
     string ActorName;
-    vector<Movie*> movie;
+    vector<ActorEdge*> edges;
     bool done;
     ActorNode* prev;
-    Movie* bothMovie;
-    int disToBegin;
-    int size;
+    int distance;
+    string prevMovie;
 
     ActorNode(string actorName) : ActorName(actorName) {
         done = false;
         prev = nullptr;
-        bothMovie = nullptr;
-        disToBegin = INT_MAX;
-        size = 1;
+        distance = INT_MAX;
+        edges = vector<ActorEdge*>();
+    }
+    void clean() {
+        prev = nullptr;
+        distance = -1;
+        done = false;
     }
 };
 #endif
