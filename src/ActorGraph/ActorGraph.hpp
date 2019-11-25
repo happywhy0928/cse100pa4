@@ -26,7 +26,7 @@ class CompareDit {
                     pair<int, ActorNode*> pair2) const {
         return pair1.first > pair2.first;
     }
-}
+};
 /**
  * TODO: add class header
  */
@@ -60,6 +60,9 @@ class ActorGraph {
     bool loadFromFile(const char* in_filename, bool use_weighted_edges);
     void BFSForSearch(string root);
     void findPath(string start, string end, bool weighted, ofstream& outFile);
+    void writeTheResultPath(ActorNode* actor, ofstream& outFile);
+    void buildingGraph();
+    void buildEdges(string name, Movie* movie, bool edge);
 };
 
 #endif  // ACTORGRAPH_HPP

@@ -105,5 +105,84 @@ void ActorGraph::findPath(string start, string end, bool weighted,
     }
     priority_queue<pair<int, ActorNode*>, vector<pair<int, ActorNode*>>,
                    CompareDit>
-        pq;
+        checklist;
+    auto startActor = ActorList.find(start);
+    startActor->second->distance = 0;
+    checklist.push(pair<int, ActorNode*>(0, startActor->second));
+    while (checklist.size() > 0) {
+        auto curr = checklist.top();
+        checklist.pop();
+        if (curr.second->done == false) {
+            curr.second->done = true;
+            if (curr.second->ActorName == end) {
+                break;
+            }
+
+            for (auto edge : curr.second->edges) {
+                auto checkActor = ActorList[edge->actor];
+                if (checkActor->done == true) {
+                    continue;
+                }
+                int weight = 1;
+                if (checkActor->distance == -1) {
+                    checkActor->distance = curr.second->distance + weight;
+                    checkActor->prevMovie = edge->getMostRecentMovie;
+                    checkActor->prev = curr.second;
+                    checklist.push(pair<int, ActorNode*>(checkActor->distance,
+                                                         checkActor));
+                } else if (checkActor->distance >
+                           curr.second->distance + weight) {
+                    checkActor->distance = curr.second->distance + weight;
+                    checkActor->prevMovie = edge->getMostRecentMovie;
+                    checkActor->prev = curr.second;
+                    checklist.push(pair<int, ActorNode*>(checkActor->distance,
+                                                         checkActor));
+                }
+            }
+        }
+    }
+    auto endActor = ActorList[end];
+    writeTheResultPath(endActor, outFile);
+}
+void ActorGraph::writeTheResultPath(ActorNode* actor, ofstream& outFile) {
+    if (actor->prev == nullptr) {
+        outFile << "(" << actor->ActorName << ")";
+    } else {
+        writeTheResultPath(actor->prev, outFile);
+        outFile << "--[" << actor->prevMovie << "]-->(" << actor->ActorName
+                << ")";
+    }
+}
+void ActorGraph::buildingGraph() {
+    for (unordered_map<string, Movie*>::iterator x = movieList.begin();
+         x != movieList.end(); x++) {
+        buildEdges(x->first, x->second, true);
+    }
+}
+void ActorGraph::buildEdges(string name, Movie* movie, bool edge) {
+    vector<string> actorSets = movie->actors;
+    for (int i = 0; i < actorSets.size(); i++) {
+        auto currActor = this->ActorList.find(actorSets[i]);
+        for (int k = 0; k < actorSets.size(); k++) {
+            if (i == k) {
+                continue;
+            }
+            string currEdge = currActor->first + actorSets[k];
+            if (this->edges.find(currEdge) == this->edges.end()) {
+                this->edges[currEdge] = new ActorEdge(actorSets[k]);
+                currActor->second->edges.push_back(currEdge);
+                if (edge) {
+                    auto temp = edges.find(currEdge);
+                    temp->second->movies.push_back(movie);
+                }
+            } else {
+                if (edge) {
+                    auto temp = edges.find(currEdge);
+                    temp->second->movies.push_back(movie);
+                } else {
+                    continue;
+                }
+            }
+        }
+    }
 }
