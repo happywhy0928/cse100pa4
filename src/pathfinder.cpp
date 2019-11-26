@@ -53,5 +53,6 @@ int main(int argc, char** argv) {
             continue;
         }
         graph.findPath(memory[0], memory[1], weighted, outFile);
+        outFile << endl;
     }
 }
