@@ -28,11 +28,13 @@ int main(int argc, char* argv[]) {
             break;
         }
         if (!header) {
+            cout << "aaa" << endl;
             header = true;
             outFile1 << "Actor1, Actor2, Actor3, Actor4" << endl;
             outFile2 << "Actor1, Actor2, Actor3, Actor4" << endl;
             continue;
         }
+        // cout << "123" << endl;
         istringstream iss(temp);
         while (iss) {
             string next;
@@ -43,14 +45,15 @@ int main(int argc, char* argv[]) {
         }
     }
     inFile.close();
+    // cout << "456" << endl;
     vector<ActorNode*> actors;
     for (string i : names) {
         actors.push_back(graph.ActorList[i]);
     }
-    // vector<vector<ActorNode*>> result1 = graph.predictForExist(actors);
-    /*for (int i = 0; i < result1.size(); i++) {
+    vector<vector<ActorNode*>> result1 = graph.predictForExist(actors);
+    for (int i = 0; i < result1.size(); i++) {
         int count = 0;
-        for (int k = 0; k < result1[i].size; k++) {
+        for (int k = 0; k < result1[i].size(); k++) {
             outFile1 << result1[i][k]->ActorName;
             count++;
 
@@ -69,27 +72,27 @@ int main(int argc, char* argv[]) {
         outFile1 << endl;
     }
     outFile1.close();
+    /*
+        vector<vector<ActorNode*>> result2 = graph.predictForNew(actors);
+        for (int i = 0; i < result2.size(); i++) {
+            int count = 0;
+            for (int k = 0; k < result2[i].size(); k++) {
+                outFile2 << result2[i][k]->ActorName;
+                count++;
 
-    vector<vector<ActorNode*>> result2 = graph.predictForNew(actors);
-    for (int i = 0; i < result2.size(); i++) {
-        int count = 0;
-        for (int k = 0; k < result2[i].size(); k++) {
-            outFile2 << result2[i][k]->ActorName;
-            count++;
-
-            if (count < 4) {
-                outFile2 << "\t";
+                if (count < 4) {
+                    outFile2 << "\t";
+                }
             }
-        }
-        while (count < 4) {
-            outFile2 << "NULL";
-            count++;
-            if (count < 4) {
-                outFile2 << "\t";
+            while (count < 4) {
+                outFile2 << "NULL";
+                count++;
+                if (count < 4) {
+                    outFile2 << "\t";
+                }
             }
+            outFile2 << endl;
         }
-        outFile2 << endl;
-    }
-    outFile2.close(); */
+        outFile2.close(); */
     return 0;
 }

@@ -70,7 +70,7 @@ bool ActorGraph::loadFromFile(const char* in_filename,
             // we should have exactly 3 columns
             continue;
         }
-
+        // cout << "999" << endl;
         string actor(record[0]);
         string movie_title(record[1]);
         int year = stoi(record[2]);
@@ -226,17 +226,43 @@ vector<ActorNode*> ActorGraph::helperForPredictExist(ActorNode* actor) {
     ActorNode* start = actor;
     start->distance = 0;
     pq.push(pair<int, ActorNode*>(0, start));
-    while (pq.size() > 0) {
-        auto curr = pq.top();
-        pq.pop();
-        if (!curr.second->done) {
-            curr.second->done = true;
+    // while (pq.size() > 0) {
+    auto curr = pq.top();
+    pq.pop();
+    if (!curr.second->done) {
+        curr.second->done = true;
 
-            for (auto edge : curr.second->edges) {
-                auto currActor = ActorList[edge->actor];
-                if (currActor->done == true) {
+        for (auto edge : curr.second->edges) {
+            auto currActor1 = ActorList[edge->actor];
+            if (currActor1->done == true) {
+                continue;
+            }
+            for (auto edge1 : curr.second->edges) {
+                auto currActor2 = ActorList[edge1->actor];
+                if (currActor2 == currActor1) {
                     continue;
                 }
+                for (auto edge2 : currActor1->edges) {
+                    auto checkFor2 = ActorList[edge2->actor];
+                    if (checkFor2 == currActor2) {
+                        currActor1->done = true;
+                        pq.push(pair<int, ActorNode*>(
+                            edge1->movies.size() * edge2->movies.size(),
+                            currActor1));
+                    }
+                }
+            }
+        }
+        //  }
+    }
+    cout << pq.size() << endl;
+    vector<ActorNode*> result;
+    if (pq.empty() == false) {
+        for (int i = 0; i < 4; i++) {
+            result[i] = pq.top().second;
+            pq.pop();
+            if (pq.empty() == true) {
+                break;
             }
         }
     }
