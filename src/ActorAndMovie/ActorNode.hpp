@@ -21,7 +21,6 @@ class ActorNode {
     ActorNode(string actorName) : ActorName(actorName) {
         done = false;
         prev = nullptr;
-        distance = INT_MAX;
         edges = vector<ActorEdge*>();
     }
     void clean() {

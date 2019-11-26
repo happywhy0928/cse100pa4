@@ -7,14 +7,14 @@ class ActorEdge {
   public:
     string actor;
     vector<Movie*> movies;
-    Movie* mostRecentMovie;
+    Movie* newestMovie;
     explicit ActorEdge(string input_actor) : actor(input_actor) {
-        mostRecentMovie = nullptr;
+        newestMovie = nullptr;
         movies = vector<Movie*>();
     }
-    Movie* getMostRecentMovie() {
-        if (mostRecentMovie != nullptr) {
-            return mostRecentMovie;
+    Movie* getNewestMovie() {
+        if (newestMovie != nullptr) {
+            return newestMovie;
         }
         int index = 0;
         for (int i = 1; i < movies.size(); i++) {
@@ -22,8 +22,8 @@ class ActorEdge {
                 index = i;
             }
         }
-        mostRecentMovie = movies[index];
-        return mostRecentMovie;
+        newestMovie = movies[index];
+        return newestMovie;
     }
 };
 #endif

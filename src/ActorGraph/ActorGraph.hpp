@@ -62,7 +62,7 @@ class ActorGraph {
     void findPath(string start, string end, bool weighted, ofstream& outFile);
     void writeTheResultPath(ActorNode* actor, ofstream& outFile);
     void buildingGraph();
-    void buildEdges(string name, Movie* movie, bool edge);
+    void buildingEdges(string name, Movie* movie, bool edge);
 };
 
 #endif  // ACTORGRAPH_HPP

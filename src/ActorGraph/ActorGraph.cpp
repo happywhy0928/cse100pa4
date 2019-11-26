@@ -126,20 +126,18 @@ void ActorGraph::findPath(string start, string end, bool weighted,
                 int weight = 1;
                 if (checkActor->distance == -1) {
                     checkActor->distance = curr.second->distance + weight;
-                    checkActor->prevMovie = edge->movies[0]->MovieName;
+                    //  checkActor->prevMovie = edge->movies[0]->MovieName;
 
-                    //             checkActor->prevMovie =
-                    //               edge->getMostRecentMovie()->MovieName;
+                    checkActor->prevMovie = edge->getNewestMovie()->MovieName;
                     checkActor->prev = curr.second;
                     checklist.push(pair<int, ActorNode*>(checkActor->distance,
                                                          checkActor));
                 } else if (checkActor->distance >
                            curr.second->distance + weight) {
                     checkActor->distance = curr.second->distance + weight;
-                    checkActor->prevMovie = edge->movies[0]->MovieName;
+                    //   checkActor->prevMovie = edge->movies[0]->MovieName;
 
-                    //         checkActor->prevMovie =
-                    //             edge->getMostRecentMovie()->MovieName;
+                    checkActor->prevMovie = edge->getNewestMovie()->MovieName;
                     checkActor->prev = curr.second;
                     checklist.push(pair<int, ActorNode*>(checkActor->distance,
                                                          checkActor));
@@ -162,10 +160,10 @@ void ActorGraph::writeTheResultPath(ActorNode* actor, ofstream& outFile) {
 void ActorGraph::buildingGraph() {
     for (unordered_map<string, Movie*>::iterator x = movieList.begin();
          x != movieList.end(); x++) {
-        buildEdges(x->first, x->second, true);
+        buildingEdges(x->first, x->second, true);
     }
 }
-void ActorGraph::buildEdges(string name, Movie* movie, bool edge) {
+void ActorGraph::buildingEdges(string name, Movie* movie, bool edge) {
     vector<string> actorSets = movie->actors;
     for (int i = 0; i < actorSets.size(); i++) {
         auto currActor = this->ActorList.find(actorSets[i]);
