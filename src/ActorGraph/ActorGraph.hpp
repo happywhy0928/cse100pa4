@@ -44,15 +44,18 @@ class CompareRelationship {
 class ActorGraph {
   protected:
     // Maybe add class data structure(s) here
-    unordered_map<string, ActorNode*> ActorList;
-    unordered_map<string, ActorEdge*> edges;
-    unordered_map<string, Movie*> movieList;
+    /*   unordered_map<string, ActorNode*> ActorList;
+       unordered_map<string, ActorEdge*> edges;
+       unordered_map<string, Movie*> movieList; */
     // vector<ActorEdge*> edges;
 
   public:
     /**
      * Constuctor of the Actor graph
      */
+    unordered_map<string, ActorNode*> ActorList;
+    unordered_map<string, ActorEdge*> edges;
+    unordered_map<string, Movie*> movieList;
     ActorGraph(void);
     ~ActorGraph();
 
@@ -75,6 +78,8 @@ class ActorGraph {
     void buildingGraph();
     void buildingEdges(string name, Movie* movie, bool edge);
     string returnSize();
+    vector<vector<ActorNode*>> predictForExist(vector<ActorNode*> actors);
+    vector<vector<ActorNode*>> predictForNew(vector<ActorNode*> actors);
 };
 
 #endif  // ACTORGRAPH_HPP

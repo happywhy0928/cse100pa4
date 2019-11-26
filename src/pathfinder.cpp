@@ -57,4 +57,5 @@ int main(int argc, char** argv) {
         //  string temp56 = graph.returnSize();
         // outFile << temp56;
     }
+    return 0;
 }

@@ -207,3 +207,15 @@ string ActorGraph::returnSize() {
     string result3 = to_string(edges.size());
     return result1 + 'a' + result2 + 'b' + result3;
 }
+vector<vector<ActorNode*>> ActorGraph::predictForExist(
+    vector<ActorNode*> actors) {
+    // auto pq = priority_queue <
+    vector<vector<ActorNode*>> pq;
+    return pq;
+}
+vector<vector<ActorNode*>> ActorGraph::predictForNew(
+    vector<ActorNode*> actors) {
+    // auto pq = priority_queue <
+    vector<vector<ActorNode*>> pq;
+    return pq;
+}
