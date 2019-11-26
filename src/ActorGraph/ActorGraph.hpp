@@ -80,6 +80,7 @@ class ActorGraph {
     string returnSize();
     vector<vector<ActorNode*>> predictForExist(vector<ActorNode*> actors);
     vector<vector<ActorNode*>> predictForNew(vector<ActorNode*> actors);
+    vector<ActorNode*> helperForPredictExist(ActorNode* actor);
 };
 
 #endif  // ACTORGRAPH_HPP

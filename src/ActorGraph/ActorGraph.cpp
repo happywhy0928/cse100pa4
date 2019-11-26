@@ -211,7 +211,35 @@ vector<vector<ActorNode*>> ActorGraph::predictForExist(
     vector<ActorNode*> actors) {
     // auto pq = priority_queue <
     vector<vector<ActorNode*>> pq;
+    for (int i = 0; i < actors.size(); i++) {
+        pq[i] = helperForPredictExist(actors[i]);
+    }
     return pq;
+}
+vector<ActorNode*> ActorGraph::helperForPredictExist(ActorNode* actor) {
+    for (auto start = ActorList.begin(); start != ActorList.end(); start++) {
+        start->second->clean();
+    }
+    priority_queue<pair<int, ActorNode*>, vector<pair<int, ActorNode*>>,
+                   CompareRelationship>
+        pq;
+    ActorNode* start = actor;
+    start->distance = 0;
+    pq.push(pair<int, ActorNode*>(0, start));
+    while (pq.size() > 0) {
+        auto curr = pq.top();
+        pq.pop();
+        if (!curr.second->done) {
+            curr.second->done = true;
+
+            for (auto edge : curr.second->edges) {
+                auto currActor = ActorList[edge->actor];
+                if (currActor->done == true) {
+                    continue;
+                }
+            }
+        }
+    }
 }
 vector<vector<ActorNode*>> ActorGraph::predictForNew(
     vector<ActorNode*> actors) {
