@@ -1,7 +1,6 @@
 #ifndef ACTOREDGE_HPP
 #define ACTOREDGE_HPP
 
-#include "ActorNode.hpp"
 #include "Movie.hpp"
 using namespace std;
 class ActorEdge {
@@ -9,7 +8,7 @@ class ActorEdge {
     string actor;
     vector<Movie*> movies;
     Movie* mostRecentMovie;
-    ActorEdge(string input_actor) : actor(input_actor) {
+    explicit ActorEdge(string input_actor) : actor(input_actor) {
         mostRecentMovie = nullptr;
         movies = vector<Movie*>();
     }

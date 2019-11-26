@@ -1,4 +1,4 @@
-subdir('subprojects')
+
 subdir('ActorAndMovie')
 subdir('ActorGraph')
 

@@ -126,14 +126,16 @@ void ActorGraph::findPath(string start, string end, bool weighted,
                 int weight = 1;
                 if (checkActor->distance == -1) {
                     checkActor->distance = curr.second->distance + weight;
-                    checkActor->prevMovie = edge->getMostRecentMovie;
+                    checkActor->prevMovie =
+                        edge->getMostRecentMovie()->MovieName;
                     checkActor->prev = curr.second;
                     checklist.push(pair<int, ActorNode*>(checkActor->distance,
                                                          checkActor));
                 } else if (checkActor->distance >
                            curr.second->distance + weight) {
                     checkActor->distance = curr.second->distance + weight;
-                    checkActor->prevMovie = edge->getMostRecentMovie;
+                    checkActor->prevMovie =
+                        edge->getMostRecentMovie()->MovieName;
                     checkActor->prev = curr.second;
                     checklist.push(pair<int, ActorNode*>(checkActor->distance,
                                                          checkActor));
@@ -184,5 +186,16 @@ void ActorGraph::buildEdges(string name, Movie* movie, bool edge) {
                 }
             }
         }
+    }
+}
+ActorGraph::~ActorGraph() {
+    for (auto i : ActorList) {
+        delete i.second;
+    }
+    for (auto i : movieList) {
+        delete i.second;
+    }
+    for (auto i : edges) {
+        delete i.second;
     }
 }

@@ -2,9 +2,11 @@
 #define ACTORNODE_HPP
 #include <climits>
 #include <cmath>
+#include <set>
 #include <string>
 #include <vector>
-
+#include "ActorEdge.hpp"
+#include "Movie.hpp"
 using namespace std;
 
 class ActorNode {

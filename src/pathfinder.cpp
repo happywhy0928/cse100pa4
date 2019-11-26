@@ -46,11 +46,12 @@ int main(int argc, char** argv) {
             string next;
             if (!getline(iss, next, '\t')) {
                 break;
-                memory.push_back(next);
             }
-            if (memory.size() != 2) {
-                continue;
-            }
-            graph.findPath(memory[0], memory[1], weighted, outFile);
+            memory.push_back(next);
         }
+        if (memory.size() != 2) {
+            continue;
+        }
+        graph.findPath(memory[0], memory[1], weighted, outFile);
     }
+}
