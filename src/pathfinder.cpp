@@ -54,5 +54,7 @@ int main(int argc, char** argv) {
         }
         graph.findPath(memory[0], memory[1], weighted, outFile);
         outFile << endl;
+        //  string temp56 = graph.returnSize();
+        // outFile << temp56;
     }
 }

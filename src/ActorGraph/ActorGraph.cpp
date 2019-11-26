@@ -201,3 +201,9 @@ ActorGraph::~ActorGraph() {
         delete i.second;
     }
 }
+string ActorGraph::returnSize() {
+    string result1 = to_string(ActorList.size());
+    string result2 = to_string(movieList.size());
+    string result3 = to_string(edges.size());
+    return result1 + 'a' + result2 + 'b' + result3;
+}

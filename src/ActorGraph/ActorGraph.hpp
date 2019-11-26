@@ -27,6 +27,17 @@ class CompareDit {
         return pair1.first > pair2.first;
     }
 };
+class CompareRelationship {
+  public:
+    bool operator()(pair<int, ActorNode*> pair1,
+                    pair<int, ActorNode*> pair2) const {
+        if (pair1.first != pair2.first) {
+            return pair1.first < pair2.first;
+        } else {
+            return pair1.second->ActorName > pair2.second->ActorName;
+        }
+    }
+};
 /**
  * TODO: add class header
  */
@@ -63,6 +74,7 @@ class ActorGraph {
     void writeTheResultPath(ActorNode* actor, ofstream& outFile);
     void buildingGraph();
     void buildingEdges(string name, Movie* movie, bool edge);
+    string returnSize();
 };
 
 #endif  // ACTORGRAPH_HPP
