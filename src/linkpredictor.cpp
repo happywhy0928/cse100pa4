@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
     for (string i : names) {
         actors.push_back(graph.ActorList[i]);
     }
-    vector<vector<ActorNode*>> result1 = graph.predictForExist(actors);
+    // vector<vector<ActorNode*>> result1 = graph.predictForExist(actors);
     /*for (int i = 0; i < result1.size(); i++) {
         int count = 0;
         for (int k = 0; k < result1[i].size; k++) {
