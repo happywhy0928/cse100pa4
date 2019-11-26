@@ -170,14 +170,14 @@ void ActorGraph::buildEdges(string name, Movie* movie, bool edge) {
             string currEdge = currActor->first + actorSets[k];
             if (this->edges.find(currEdge) == this->edges.end()) {
                 this->edges[currEdge] = new ActorEdge(actorSets[k]);
-                currActor->second->edges.push_back(currEdge);
+                currActor->second->edges.push_back(this->edges[currEdge]);
                 if (edge) {
-                    auto temp = edges.find(currEdge);
+                    auto temp = this->edges.find(currEdge);
                     temp->second->movies.push_back(movie);
                 }
             } else {
                 if (edge) {
-                    auto temp = edges.find(currEdge);
+                    auto temp = this->edges.find(currEdge);
                     temp->second->movies.push_back(movie);
                 } else {
                     continue;
