@@ -210,11 +210,21 @@ string ActorGraph::returnSize() {
 vector<vector<ActorNode*>> ActorGraph::predictForExist(
     vector<ActorNode*> actors) {
     // auto pq = priority_queue <
-    vector<vector<ActorNode*>> pq;
+    // cout << actors.size() << endl;
+    vector<vector<ActorNode*>> result(actors.size());
+    //  cout << "wenti" << endl;
     for (int i = 0; i < actors.size(); i++) {
-        pq[i] = helperForPredictExist(actors[i]);
+        //   cout << "wenti" << endl;
+        vector<ActorNode*> temp1 = helperForPredictExist(actors[i]);
+        for (int j = 0; j < temp1.size(); j++) {
+            //  cout << temp1[j]->ActorName << endl;
+            result[i].push_back(temp1[j]);
+            //  cout << temp1[j]->ActorName << endl;
+        }
+        // cout << "naotan" << endl;
     }
-    return pq;
+    //  cout << "correct" << endl;
+    return result;
 }
 vector<ActorNode*> ActorGraph::helperForPredictExist(ActorNode* actor) {
     for (auto start = ActorList.begin(); start != ActorList.end(); start++) {
@@ -231,45 +241,76 @@ vector<ActorNode*> ActorGraph::helperForPredictExist(ActorNode* actor) {
     pq.pop();
     if (!curr.second->done) {
         curr.second->done = true;
-        cout << "daozhelile" << endl;
-        cout << start->ActorName << endl;
-        for (auto edge : curr.second->edges) {
-            cout << "zhelimeiyou" << endl;
+        //   cout << "daozhelile" << endl;
+        //   cout << start->ActorName << endl;
+        //   cout << start->edges.size() << endl;
+        for (auto edge : start->edges) {
+            //    cout << "zhelimeiyou" << endl;
             auto currActor1 = ActorList[edge->actor];
-            cout << "987654" << endl;
-            cout << currActor1->ActorName << endl;
+            //     cout << "987654" << endl;
+            // cout << currActor1->ActorName << endl;
+            // cout << "list1" << endl;
             if (currActor1->done == true) {
                 continue;
             }
-            for (auto edge1 : curr.second->edges) {
+            int relation = 0;
+            for (auto edge1 : start->edges) {
                 auto currActor2 = ActorList[edge1->actor];
+                //  cout << currActor2->ActorName << endl;
+                // cout << "list2" << endl;
                 if (currActor2 == currActor1) {
                     continue;
                 }
                 for (auto edge2 : currActor1->edges) {
                     auto checkFor2 = ActorList[edge2->actor];
+                    // cout << checkFor2->ActorName << endl;
+                    // cout << "list3" << endl;
                     if (checkFor2 == currActor2) {
                         currActor1->done = true;
+                        /*
                         pq.push(pair<int, ActorNode*>(
                             edge1->movies.size() * edge2->movies.size(),
                             currActor1));
+                            */
+                        relation += edge1->movies.size() * edge2->movies.size();
+                        //  cout << currActor1->ActorName << endl;
+                        // cout << "input" << endl;
                     }
                 }
+                /*
+                pq.push(pair<int, ActorNode*>(relation, currActor1));
+                cout << currActor1->ActorName << endl;
+                cout << relation << endl; */
             }
+            currActor1->done = true;
+            pq.push(pair<int, ActorNode*>(relation, currActor1));
+            // cout << currActor1->ActorName << endl;
+            // cout << relation << endl;
         }
         //  }
     }
-    cout << pq.size() << endl;
+    //  cout << pq.size() << endl;
+    //   cout << "zhongdiandaole" << endl;
+    //   cout << pq.top().second->ActorName << endl;
     vector<ActorNode*> result;
-    if (pq.empty() == false) {
-        for (int i = 0; i < 4; i++) {
-            result[i] = pq.top().second;
-            pq.pop();
-            if (pq.empty() == true) {
-                break;
-            }
+    int count = 0;
+    for (int i = 0; i < 4; i++) {
+        //  cout << count << endl;
+        if (pq.empty() == true) {
+            // cout << "?????0" << endl;
+            break;
         }
+        if (count == 4) {
+            break;
+        }
+        result.push_back(pq.top().second);
+        pq.pop();
+        count++;
+        //  cout << count << endl;
     }
+    // cout << "jieju" << endl;
+    // cout << result.size() << endl;
+    return result;
 }
 vector<vector<ActorNode*>> ActorGraph::predictForNew(
     vector<ActorNode*> actors) {

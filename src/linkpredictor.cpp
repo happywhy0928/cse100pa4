@@ -13,7 +13,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
     ActorGraph graph;
     graph.loadFromFile(argv[1], false);
-
+    graph.buildingGraph();
     ifstream inFile(argv[2]);
     ofstream outFile1(argv[3]);
     ofstream outFile2(argv[4]);
@@ -30,8 +30,8 @@ int main(int argc, char* argv[]) {
         if (!header) {
             // cout << "aaa" << endl;
             header = true;
-            outFile1 << "Actor1, Actor2, Actor3, Actor4" << endl;
-            outFile2 << "Actor1, Actor2, Actor3, Actor4" << endl;
+            outFile1 << "Actor1,Actor2,Actor3,Actor4" << endl;
+            outFile2 << "Actor1,Actor2,Actor3,Actor4" << endl;
             continue;
         }
         // cout << "123" << endl;
@@ -56,13 +56,14 @@ int main(int argc, char* argv[]) {
         for (int k = 0; k < result1[i].size(); k++) {
             outFile1 << result1[i][k]->ActorName;
             count++;
-
+            // cout << result1[i][k]->ActorName << endl;
             if (count < 4) {
                 outFile1 << "\t";
             }
         }
+
         while (count < 4) {
-            outFile1 << "NULL";
+            outFile1 << "";
             count++;
             if (count < 4) {
                 outFile1 << "\t";
