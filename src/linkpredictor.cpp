@@ -50,6 +50,7 @@ int main(int argc, char* argv[]) {
     for (string i : names) {
         actors.push_back(graph.ActorList[i]);
     }
+
     vector<vector<ActorNode*>> result1 = graph.predictForExist(actors);
     for (int i = 0; i < result1.size(); i++) {
         int count = 0;
@@ -62,38 +63,39 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        while (count < 4) {
-            outFile1 << "";
-            count++;
-            if (count < 4) {
-                outFile1 << "\t";
-            }
-        }
+        //      while (count < 4) {
+        //        outFile1 << "";
+        ///      count++;
+        //     if (count < 4) {
+        //         outFile1 << "\t";
+        //     }
+        //}
 
         outFile1 << endl;
     }
     outFile1.close();
-    /*
-        vector<vector<ActorNode*>> result2 = graph.predictForNew(actors);
-        for (int i = 0; i < result2.size(); i++) {
-            int count = 0;
-            for (int k = 0; k < result2[i].size(); k++) {
-                outFile2 << result2[i][k]->ActorName;
-                count++;
 
-                if (count < 4) {
-                    outFile2 << "\t";
-                }
+    vector<vector<ActorNode*>> result2 = graph.predictForNew(actors);
+    for (int i = 0; i < result2.size(); i++) {
+        int count = 0;
+        for (int k = 0; k < result2[i].size(); k++) {
+            outFile2 << result2[i][k]->ActorName;
+            count++;
+
+            if (count < 4) {
+                outFile2 << "\t";
             }
-            while (count < 4) {
-                outFile2 << "NULL";
-                count++;
-                if (count < 4) {
-                    outFile2 << "\t";
-                }
-            }
-            outFile2 << endl;
         }
-        outFile2.close(); */
+        /*
+        while (count < 4) {
+            outFile2 << "NULL";
+            count++;
+            if (count < 4) {
+                outFile2 << "\t";
+            }
+        } */
+        outFile2 << endl;
+    }
+    outFile2.close();
     return 0;
 }

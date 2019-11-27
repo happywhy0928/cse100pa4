@@ -11,6 +11,7 @@
 #include "ActorGraph.hpp"
 #include <fstream>
 #include <iostream>
+#include <queue>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -211,6 +212,9 @@ vector<vector<ActorNode*>> ActorGraph::predictForExist(
     vector<ActorNode*> actors) {
     // auto pq = priority_queue <
     // cout << actors.size() << endl;
+    for (auto x : ActorList) {
+        x.second->clean();
+    }
     vector<vector<ActorNode*>> result(actors.size());
     //  cout << "wenti" << endl;
     for (int i = 0; i < actors.size(); i++) {
@@ -314,7 +318,89 @@ vector<ActorNode*> ActorGraph::helperForPredictExist(ActorNode* actor) {
 }
 vector<vector<ActorNode*>> ActorGraph::predictForNew(
     vector<ActorNode*> actors) {
-    // auto pq = priority_queue <
-    vector<vector<ActorNode*>> pq;
-    return pq;
+    for (auto x : ActorList) {
+        x.second->clean();
+    }
+    vector<vector<ActorNode*>> result(actors.size());
+    for (int i = 0; i < actors.size(); i++) {
+        vector<ActorNode*> temp1 = helperForPredictNew(actors[i]);
+        for (int j = 0; j < temp1.size(); j++) {
+            result[i].push_back(temp1[j]);
+        }
+    }
+    return result;
+}
+vector<ActorNode*> ActorGraph::helperForPredictNew(ActorNode* actor) {
+    for (auto start = ActorList.begin(); start != ActorList.end(); start++) {
+        start->second->clean();
+    }
+    priority_queue<pair<int, ActorNode*>, vector<pair<int, ActorNode*>>,
+                   CompareRelationship>
+        pq;
+    vector<ActorNode*> NodeList;
+    ActorNode* start = actor;
+    start->distance = 0;
+    pq.push(pair<int, ActorNode*>(0, start));
+    // while (pq.size() > 0) {
+    auto curr = pq.top();
+    pq.pop();
+    if (!curr.second->done) {
+        curr.second->done = true;
+        for (auto edge : start->edges) {
+            auto temp = ActorList[edge->actor];
+            for (auto edge1 : temp->edges) {
+                auto currActor1 = ActorList[edge1->actor];
+                if (currActor1->done == true) {
+                    continue;
+                }
+                currActor1->done = true;
+                bool neighbor = false;
+                for (auto edge2 : currActor1->edges) {
+                    auto check = ActorList[edge2->actor];
+                    if (check == start) {
+                        neighbor = true;
+                        break;
+                    }
+                }
+                if (neighbor == false) {
+                    NodeList.push_back(currActor1);
+                }
+
+                // int relation  = 0;
+            }
+        }
+    }
+    for (int i = 0; i < NodeList.size(); i++) {
+        auto check1 = NodeList[i];
+        int relation = 0;
+        for (auto edge : check1->edges) {
+            auto check2 = ActorList[edge->actor];
+            for (auto edge1 : check2->edges) {
+                auto check3 = ActorList[edge1->actor];
+                if (check3 == start) {
+                    relation += edge->movies.size() * edge1->movies.size();
+                }
+            }
+        }
+        pq.push(pair<int, ActorNode*>(relation, check1));
+    }
+    vector<ActorNode*> result;
+    int count = 0;
+    for (int i = 0; i < 4; i++) {
+        //  cout << count << endl;
+        if (pq.empty() == true) {
+            // cout << "?????0" << endl;
+            break;
+        }
+        if (count == 4) {
+            break;
+        }
+        result.push_back(pq.top().second);
+        pq.pop();
+        count++;
+        //  cout << count << endl;
+    }
+    // cout << "jieju" << endl;
+    // cout << result.size() << endl;
+    return result;
 }

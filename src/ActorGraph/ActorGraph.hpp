@@ -81,6 +81,7 @@ class ActorGraph {
     vector<vector<ActorNode*>> predictForExist(vector<ActorNode*> actors);
     vector<vector<ActorNode*>> predictForNew(vector<ActorNode*> actors);
     vector<ActorNode*> helperForPredictExist(ActorNode* actor);
+    vector<ActorNode*> helperForPredictNew(ActorNode* actor);
 };
 
 #endif  // ACTORGRAPH_HPP
