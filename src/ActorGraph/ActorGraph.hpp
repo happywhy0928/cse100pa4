@@ -72,7 +72,6 @@ class ActorGraph {
      * return true if file was loaded sucessfully, false otherwise
      */
     bool loadFromFile(const char* in_filename, bool use_weighted_edges);
-    void BFSForSearch(string root);
     void findPath(string start, string end, bool weighted, ofstream& outFile);
     void writeTheResultPath(ActorNode* actor, ofstream& outFile);
     void buildingGraph();
