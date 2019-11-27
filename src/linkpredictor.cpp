@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
             break;
         }
         if (!header) {
-            cout << "aaa" << endl;
+            // cout << "aaa" << endl;
             header = true;
             outFile1 << "Actor1, Actor2, Actor3, Actor4" << endl;
             outFile2 << "Actor1, Actor2, Actor3, Actor4" << endl;

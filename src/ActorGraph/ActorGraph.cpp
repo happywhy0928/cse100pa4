@@ -231,9 +231,13 @@ vector<ActorNode*> ActorGraph::helperForPredictExist(ActorNode* actor) {
     pq.pop();
     if (!curr.second->done) {
         curr.second->done = true;
-
+        cout << "daozhelile" << endl;
+        cout << start->ActorName << endl;
         for (auto edge : curr.second->edges) {
+            cout << "zhelimeiyou" << endl;
             auto currActor1 = ActorList[edge->actor];
+            cout << "987654" << endl;
+            cout << currActor1->ActorName << endl;
             if (currActor1->done == true) {
                 continue;
             }
