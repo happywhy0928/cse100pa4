@@ -42,9 +42,8 @@ int main(int argc, char** argv) {
         if (find1 != find2) {
             sets.unionSets(temp1, temp2);
             outfile << "(" << temp1->ActorName << ")<--["
-                    << edge->newestMovie->MovieName << "#@"
-                    << edge->newestMovie->year << "]-->(" << temp2->ActorName
-                    << ")" << endl;
+                    << edge->newestMovie->MovieName << "]-->("
+                    << temp2->ActorName << ")" << endl;
 
             edgesInMST++;
             totalWeights += edge->weight;
