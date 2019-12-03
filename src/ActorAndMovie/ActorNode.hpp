@@ -17,6 +17,7 @@ class ActorNode {
     ActorNode* prev;
     int distance;
     string prevMovie;
+    ActorNode* parent;
 
     ActorNode(string actorName) : ActorName(actorName) {
         done = false;

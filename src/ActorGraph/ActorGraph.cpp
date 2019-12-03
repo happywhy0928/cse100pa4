@@ -124,7 +124,12 @@ void ActorGraph::findPath(string start, string end, bool weighted,
                 if (checkActor->done == true) {
                     continue;
                 }
-                int weight = 1;
+                int weight;
+                if (weighted == false) {
+                    weight = 1;
+                } else {
+                    weight = 1 + 2019 - edge->getNewestMovie()->year;
+                }
                 if (checkActor->distance == -1) {
                     checkActor->distance = curr.second->distance + weight;
                     //  checkActor->prevMovie = edge->movies[0]->MovieName;
@@ -175,6 +180,10 @@ void ActorGraph::buildingEdges(string name, Movie* movie, bool edge) {
             string currEdge = currActor->first + actorSets[k];
             if (this->edges.find(currEdge) == this->edges.end()) {
                 this->edges[currEdge] = new ActorEdge(actorSets[k]);
+                this->edges[currEdge]->star1 = currActor->first;
+                this->edges[currEdge]->star2 =
+                    this->ActorList.find(actorSets[k])->first;
+
                 currActor->second->edges.push_back(this->edges[currEdge]);
                 if (edge) {
                     auto temp = this->edges.find(currEdge);
