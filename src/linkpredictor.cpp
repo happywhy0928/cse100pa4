@@ -97,8 +97,8 @@ int main(int argc, char* argv[]) {
         outFile2 << endl;
     }
     outFile2.close();
-    for(int i = 0; i< actors.size(); i++){
+    /*for(int i = 0; i< actors.size(); i++){
         delete actors[i];
-    }
+    }*/
     return 0;
 }
