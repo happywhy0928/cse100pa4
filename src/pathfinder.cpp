@@ -1,3 +1,8 @@
+/**
+ * Author: Hongyu Wang
+ *         Carghin Rekani
+ * Overview: this file finds the shortest path
+ */
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -9,10 +14,11 @@
 #include "cxxopts.hpp"
 
 using namespace std;
-
+//main function to find the shortest path 
 int main(int argc, char** argv) {
     ActorGraph graph;
     bool weighted;
+    //weighted or unweighted
     if (*(argv[2]) == 'w') {
         weighted = true;
     }
@@ -20,20 +26,21 @@ int main(int argc, char** argv) {
     else {
         weighted = false;
     }
+    //build the graph
     graph.loadFromFile(argv[1], weighted);
     graph.buildingGraph();
-
+bool header = false;
     ofstream outFile;
     outFile.open(argv[4]);
-    bool header = false;
     ifstream infile(argv[3]);
-
+    
     while (infile) {
         string temp;
 
         if (!getline(infile, temp)) {
             break;
         }
+        //write the header
         if (!header) {
             header = true;
             outFile << "(actor)--[movie#@year]-->(actor)--..." << endl;
@@ -52,10 +59,10 @@ int main(int argc, char** argv) {
         if (memory.size() != 2) {
             continue;
         }
+        //write path
         graph.findPath(memory[0], memory[1], weighted, outFile);
         outFile << endl;
-        //  string temp56 = graph.returnSize();
-        // outFile << temp56;
+
     }
     return 0;
 }
