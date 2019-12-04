@@ -16,7 +16,7 @@ using namespace std;
 class ActorEdge {
   public:
     string star1;           // left side of edge
-    string star2;           // right side of edge
+                            //  string star2;           // right side of edge
     string actor;           // name of the actor on the other side
     vector<Movie*> movies;  // movie list these two actor work
     Movie* newestMovie;     // most recent movie to determine the weight
