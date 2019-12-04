@@ -19,11 +19,17 @@ DisjointSets::DisjointSets(ActorGraph* inputGraph, int numActors) {
 }
 
 ActorNode* DisjointSets::find(ActorNode* findNode) const {
-    ActorNode* temp = findNode;
-    while (temp->parent != nullptr) {
-        temp = temp->parent;
+    ActorNode* result = findNode;
+    while (result->parent != nullptr) {
+        result = result->parent;
     }
-    return temp;
+    ActorNode* temp = findNode;
+    while (temp != result) {
+        ActorNode* next = temp->parent;
+        temp->parent = result;
+        temp = next;
+    }
+    return result;
 }
 
 void DisjointSets::unionSets(ActorNode* node1, ActorNode* node2) {
