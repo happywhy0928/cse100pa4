@@ -1,7 +1,8 @@
 /**
  * Author: Hongyu Wang
  *         Carghin Rekani
- * Overview: this file finds the linkpredict for exist edges and non-existed edges
+ * Overview: this file finds the linkpredict for exist edges and non-existed
+ * edges
  */
 #include <fstream>
 #include <iostream>
@@ -14,11 +15,11 @@
 #include "cxxopts.hpp"
 
 using namespace std;
-//main function to linkpredict 
+// main function to linkpredict
 int main(int argc, char* argv[]) {
     ActorGraph graph;
 
-    //build the graph
+    // build the graph
     graph.loadFromFile(argv[1], false);
     graph.buildingGraph();
     ifstream inFile(argv[2]);
@@ -41,7 +42,7 @@ int main(int argc, char* argv[]) {
             outFile2 << "Actor1,Actor2,Actor3,Actor4" << endl;
             continue;
         }
-        //get all the names to search
+        // get all the names to search
         istringstream iss(temp);
         while (iss) {
             string next;
@@ -56,8 +57,23 @@ int main(int argc, char* argv[]) {
     for (string i : names) {
         actors.push_back(graph.ActorList[i]);
     }
-    //start to predict for existed edges
-    vector<vector<ActorNode*>> result1 = graph.predictForExist(actors);
+    vector<vector<ActorNode*>> result1(actors.size());
+    vector<vector<ActorNode*>> result2(actors.size());
+    for (int i = 0; i < actors.size(); i++) {
+        for (auto x : graph.ActorList) {
+            x.second->clean();
+        }
+        vector<ActorNode*> temp1 = graph.helperForPredictExist(actors[i]);
+        for (int j = 0; j < temp1.size(); j++) {
+            result1[i].push_back(temp1[j]);
+        }
+        vector<ActorNode*> temp2 = graph.helperForPredictNew(actors[i]);
+        for (int j = 0; j < temp2.size(); j++) {
+            result2[i].push_back(temp2[j]);
+        }
+    }
+    // start to predict for existed edges
+    // vector<vector<ActorNode*>> result1 = graph.predictForExist(actors);
     for (int i = 0; i < result1.size(); i++) {
         int count = 0;
         for (int k = 0; k < result1[i].size(); k++) {
@@ -72,8 +88,8 @@ int main(int argc, char* argv[]) {
         outFile1 << endl;
     }
     outFile1.close();
-    //start to predict for non-existed edges
-    vector<vector<ActorNode*>> result2 = graph.predictForNew(actors);
+    // start to predict for non-existed edges
+    // vector<vector<ActorNode*>> result2 = graph.predictForNew(actors);
     for (int i = 0; i < result2.size(); i++) {
         int count = 0;
         for (int k = 0; k < result2[i].size(); k++) {

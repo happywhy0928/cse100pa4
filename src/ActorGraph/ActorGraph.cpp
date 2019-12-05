@@ -108,6 +108,7 @@ bool ActorGraph::loadFromFile(const char* in_filename,
  *        end:the ending node
  *        weighted: whether the graph is weighted or not
  *        outFile: the output file to write
+ * Citation: get the idea from the discussion
  */
 void ActorGraph::findPath(string start, string end, bool weighted,
                           ofstream& outFile) {
@@ -188,6 +189,7 @@ void ActorGraph::writeTheResultPath(ActorNode* actor, ofstream& outFile) {
 }
 /**
  * build the graph with edge
+ * Citation: get the idea from the discussion
  */
 void ActorGraph::buildingGraph() {
     for (unordered_map<string, Movie*>::iterator x = movieList.begin();
@@ -200,6 +202,7 @@ void ActorGraph::buildingGraph() {
  * Para:
  * name: name of movie
  * movie: pointer to the movie
+ * Citation: get the idea from the discussion
  */
 void ActorGraph::buildingEdges(string name, Movie* movie, bool edge) {
     vector<string> actorSets = movie->actors;
@@ -285,7 +288,7 @@ vector<vector<ActorNode*>> ActorGraph::predictForExist(
  */
 vector<ActorNode*> ActorGraph::helperForPredictExist(ActorNode* actor) {
     for (auto start = ActorList.begin(); start != ActorList.end(); start++) {
-        start->second->clean();
+        start->second->clean1();
     }
     priority_queue<pair<int, ActorNode*>, vector<pair<int, ActorNode*>>,
                    CompareRelationship>
@@ -306,6 +309,7 @@ vector<ActorNode*> ActorGraph::helperForPredictExist(ActorNode* actor) {
             auto currActor1 = ActorList[edge->actor];
             // cout << currActor1->ActorName << endl;
             // cout << "list1" << endl;
+            currActor1->alcheck = true;
             if (currActor1->done == true) {
                 continue;
             }
@@ -361,7 +365,7 @@ vector<ActorNode*> ActorGraph::helperForPredictExist(ActorNode* actor) {
 vector<vector<ActorNode*>> ActorGraph::predictForNew(
     vector<ActorNode*> actors) {
     for (auto x : ActorList) {
-        x.second->clean();
+        x.second->clean1();
     }
     vector<vector<ActorNode*>> result(actors.size());
     // using helper method to search for each actor specific
@@ -380,7 +384,7 @@ vector<vector<ActorNode*>> ActorGraph::predictForNew(
  */
 vector<ActorNode*> ActorGraph::helperForPredictNew(ActorNode* actor) {
     for (auto start = ActorList.begin(); start != ActorList.end(); start++) {
-        start->second->clean();
+        start->second->clean1();
     }
     priority_queue<pair<int, ActorNode*>, vector<pair<int, ActorNode*>>,
                    CompareRelationship>
@@ -408,13 +412,20 @@ vector<ActorNode*> ActorGraph::helperForPredictNew(ActorNode* actor) {
                     continue;
                 }
                 currActor1->done = true;
+
                 bool neighbor = false;
+                /*
                 for (auto edge2 : currActor1->edges) {
                     auto check = ActorList[edge2->actor];
                     if (check == start) {
                         neighbor = true;
                         break;
                     }
+                }*/
+                // cout << "123456" << endl;
+                if (currActor1->alcheck == true) {
+                    neighbor = true;
+                    continue;
                 }
                 if (neighbor == false) {
                     NodeList.push_back(currActor1);

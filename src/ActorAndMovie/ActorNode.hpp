@@ -20,6 +20,7 @@ using namespace std;
  */
 class ActorNode {
   public:
+    bool alcheck;
     string ActorName;          // node name: actor name
     vector<ActorEdge*> edges;  // relationship sets
     bool done;                 // later used for search
@@ -37,12 +38,19 @@ class ActorNode {
         done = false;
         prev = nullptr;
         edges = vector<ActorEdge*>();
+        alcheck = false;
     }
 
     /**
      * to reset the distance, prev and done for further use
      */
     void clean() {
+        prev = nullptr;
+        distance = -1;
+        done = false;
+        alcheck = false;
+    }
+    void clean1() {
         prev = nullptr;
         distance = -1;
         done = false;
